@@ -1,4 +1,4 @@
-module github.com/nexient-llc/tf-azurerm-module_primitive-route_table
+module github.com/launchbynttdata/tf-azurerm-module_primitive-route_table
 
 go 1.21.7
 
@@ -7,7 +7,7 @@ require (
 	github.com/Azure/go-autorest/autorest v0.11.29
 	github.com/Azure/go-autorest/autorest/adal v0.9.23
 	github.com/gruntwork-io/terratest v0.46.11
-	github.com/nexient-llc/lcaf-component-terratest-common v1.0.2
+	github.com/launchbynttdata/lcaf-component-terratest v1.0.2
 	github.com/stretchr/testify v1.8.4
 )
 
