@@ -2,45 +2,43 @@ package common
 
 import (
 	"context"
+	"os"
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/network/mgmt/network"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v5"
 	"github.com/gruntwork-io/terratest/modules/terraform"
-	"github.com/launchbynttdata/lcaf-component-terratest/lib/azure/configure"
-	"github.com/launchbynttdata/lcaf-component-terratest/lib/azure/login"
-	internalNetwork "github.com/launchbynttdata/lcaf-component-terratest/lib/azure/network"
 	"github.com/launchbynttdata/lcaf-component-terratest/types"
 	"github.com/stretchr/testify/assert"
 )
 
-const terraformDir string = "../../examples/route_table"
-const varFile string = "test.tfvars"
-
 func TestRouteTable(t *testing.T, ctx types.TestContext) {
 
-	envVarMap := login.GetEnvironmentVariables()
-	clientID := envVarMap["clientID"]
-	clientSecret := envVarMap["clientSecret"]
-	tenantID := envVarMap["tenantID"]
-	subscriptionID := envVarMap["subscriptionID"]
-
-	spt, err := login.GetServicePrincipalToken(clientID, clientSecret, tenantID)
-	if err != nil {
-		t.Fatalf("Error getting Service Principal Token: %v", err)
+	subscriptionID := os.Getenv("ARM_SUBSCRIPTION_ID")
+	if len(subscriptionID) == 0 {
+		t.Fatal("ARM_SUBSCRIPTION_ID is not set in the environment variables ")
 	}
 
-	routeTableClient := internalNetwork.GetRouteTablesClient(spt, subscriptionID)
-	terraformOptions := configure.ConfigureTerraform(terraformDir, []string{terraformDir + "/" + varFile})
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		t.Fatalf("Unable to get credentials: %e\n", err)
+	}
+
+	clientFactory, err := armnetwork.NewClientFactory(subscriptionID, cred, nil)
+	if err != nil {
+		t.Fatalf("Unable to get clientFactory: %e\n", err)
+	}
+	routeTableClient := clientFactory.NewRouteTablesClient()
 	t.Run("doesRouteTableExist", func(t *testing.T) {
-		checkrouteTablesExistence(t, routeTableClient, terraformOptions, ctx)
+		checkRouteTablesExistence(t, routeTableClient, ctx)
 	})
 }
 
-func checkrouteTablesExistence(t *testing.T, routeTableClient network.RouteTablesClient, terraformOptions *terraform.Options, ctx types.TestContext) {
-	resourceGroupName := terraform.Output(t, terraformOptions, "resource_group_name")
+func checkRouteTablesExistence(t *testing.T, routeTableClient *armnetwork.RouteTablesClient, ctx types.TestContext) {
+	resourceGroupName := terraform.Output(t, ctx.TerratestTerraformOptions(), "resource_group_name")
 	routeTableName := terraform.Output(t, ctx.TerratestTerraformOptions(), "name")
 
-	routeTable, err := routeTableClient.Get(context.Background(), resourceGroupName, routeTableName, "")
+	routeTable, err := routeTableClient.Get(context.Background(), resourceGroupName, routeTableName, nil)
 	if err != nil {
 		t.Fatalf("Error getting Route Table: %v", err)
 	}
