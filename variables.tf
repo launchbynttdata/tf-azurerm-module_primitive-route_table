@@ -25,12 +25,6 @@ variable "location" {
   type        = string
 }
 
-variable "disable_bgp_route_propagation" {
-  description = "(Optional) Boolean flag which controls propagation of routes learned by BGP on that route table. True means disable."
-  type        = bool
-  default     = false
-}
-
 variable "tags" {
   description = "(Optional) A mapping of tags to assign to the resource."
   type        = map(string)
