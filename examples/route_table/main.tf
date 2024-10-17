@@ -24,7 +24,7 @@ module "resource_group" {
 # This module generates the resource-name of resources based on resource_type, naming_prefix, env etc.
 module "resource_names" {
   source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   for_each = var.resource_names_map
 
@@ -41,10 +41,9 @@ module "resource_names" {
 module "route_table" {
   source = "../.."
 
-  name                          = local.route_table_name
-  location                      = var.location
-  resource_group_name           = module.resource_group.name
-  disable_bgp_route_propagation = var.disable_bgp_route_propagation
-  tags                          = var.tags
-  depends_on                    = [module.resource_group]
+  name                = local.route_table_name
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  tags                = var.tags
+  depends_on          = [module.resource_group]
 }
