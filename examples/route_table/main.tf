@@ -41,9 +41,10 @@ module "resource_names" {
 module "route_table" {
   source = "../.."
 
-  name                = local.route_table_name
-  location            = var.location
-  resource_group_name = module.resource_group.name
-  tags                = var.tags
-  depends_on          = [module.resource_group]
+  name                          = local.route_table_name
+  location                      = var.location
+  resource_group_name           = module.resource_group.name
+  disable_bgp_route_propagation = var.disable_bgp_route_propagation
+  tags                          = var.tags
+  depends_on                    = [module.resource_group]
 }
