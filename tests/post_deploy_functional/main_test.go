@@ -38,5 +38,5 @@ func TestRouteTableModule(t *testing.T) {
 		}).
 		Build()
 
-	lib.RunSetupTestTeardown(t, *ctx, testimpl.TestRouteTable)
+	lib.RunSetupTestTeardown(t, *ctx, testimpl.TestComposableRouteTable)
 }

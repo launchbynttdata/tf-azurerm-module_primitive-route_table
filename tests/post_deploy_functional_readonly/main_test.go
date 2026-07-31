@@ -38,5 +38,5 @@ func TestRouteTableModule(t *testing.T) {
 		}).
 		Build()
 
-	lib.RunNonDestructiveTest(t, *ctx, testimpl.TestRouteTable)
+	lib.RunNonDestructiveTest(t, *ctx, testimpl.TestComposableRouteTable)
 }
