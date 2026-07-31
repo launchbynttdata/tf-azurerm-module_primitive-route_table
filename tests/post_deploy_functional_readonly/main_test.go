@@ -33,7 +33,7 @@ func TestRouteTableModule(t *testing.T) {
 		SetTestConfigFileName(infraTFVarFileNameDefault).
 		SetTestSpecificFlags(map[string]types.TestFlags{
 			"route_table": {
-				"IS_TERRAFORM_IDEMPOTENT_APPLY": false,
+				"IS_TERRAFORM_IDEMPOTENT_APPLY": true,
 			},
 		}).
 		Build()
