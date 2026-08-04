@@ -77,7 +77,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|---------|
+|------|------|
 | [azurerm_route_table.route_table](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route_table) | resource |
 
 ## Inputs
@@ -93,7 +93,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|---------|
+|------|-------------|
 | <a name="output_id"></a> [id](#output\_id) | The Route Table ID. |
 | <a name="output_name"></a> [name](#output\_name) | The Route Table Name. |
 | <a name="output_subnets"></a> [subnets](#output\_subnets) | The collection of Subnets associated with this route table. |
