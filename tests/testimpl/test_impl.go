@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRouteTable(t *testing.T, ctx types.TestContext) {
+func TestComposableRouteTable(t *testing.T, ctx types.TestContext) {
 
 	subscriptionID := os.Getenv("ARM_SUBSCRIPTION_ID")
 	if len(subscriptionID) == 0 {
