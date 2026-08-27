@@ -35,8 +35,8 @@ func TestComposableRouteTable(t *testing.T, ctx types.TestContext) {
 }
 
 func checkRouteTablesExistence(t *testing.T, routeTableClient *armnetwork.RouteTablesClient, ctx types.TestContext) {
-	resourceGroupName := terraform.Output(t, ctx.TerratestTerraformOptions(), "resource_group_name")
-	routeTableName := terraform.Output(t, ctx.TerratestTerraformOptions(), "name")
+	resourceGroupName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "resource_group_name")
+	routeTableName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "name")
 
 	routeTable, err := routeTableClient.Get(context.Background(), resourceGroupName, routeTableName, nil)
 	if err != nil {
